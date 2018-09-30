@@ -15,13 +15,15 @@ class Klaus(flask.Flask):
         'undefined': jinja2.StrictUndefined
     }
 
-    def __init__(self, repo_paths, site_name, use_smarthttp, ctags_policy='none'):
+    def __init__(self, repo_paths, site_name, use_smarthttp,
+                 ctags_policy='none', sort_by='updated'):
         """(See `make_app` for parameter descriptions.)"""
         repo_objs = [FancyRepo(path) for path in repo_paths]
         self.repos = dict((repo.name, repo) for repo in repo_objs)
         self.site_name = site_name
         self.use_smarthttp = use_smarthttp
         self.ctags_policy = ctags_policy
+        self.sort_by = sort_by
 
         flask.Flask.__init__(self, __name__)
 
@@ -83,7 +85,7 @@ class Klaus(flask.Flask):
 
 def make_app(repo_paths, site_name, use_smarthttp=False, htdigest_file=None,
              require_browser_auth=False, disable_push=False, unauthenticated_push=False,
-             ctags_policy='none'):
+             ctags_policy='none', sort_by='updated'):
     """
     Returns a WSGI app with all the features (smarthttp, authentication)
     already patched in.
@@ -122,6 +124,7 @@ def make_app(repo_paths, site_name, use_smarthttp=False, htdigest_file=None,
         site_name,
         use_smarthttp,
         ctags_policy,
+        sort_by,
     )
     app.wsgi_app = utils.ProxyFix(app.wsgi_app)
 

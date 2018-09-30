@@ -18,6 +18,7 @@ def get_args_from_env():
         disable_push=strtobool(os.environ.get('KLAUS_DISABLE_PUSH', '0')),
         unauthenticated_push=strtobool(
             os.environ.get('KLAUS_UNAUTHENTICATED_PUSH', '0')),
-        ctags_policy=os.environ.get('KLAUS_CTAGS_POLICY', 'none')
+        ctags_policy=os.environ.get('KLAUS_CTAGS_POLICY', 'none'),
+        sort_by=os.environ.get('KLAUS_SORT_BY', 'updated')
     )
     return args, kwargs
